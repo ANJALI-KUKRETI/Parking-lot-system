@@ -36,4 +36,29 @@ export class ParkinglotController {
     const regArr = this.parkinglotService.getRegNum(color);
     return { arr: regArr };
   }
+
+  @Get('slot_numbers/:color')
+  getSlotNum(@Param('color') color: string) {
+    const slotArr = this.parkinglotService.getSlotNum(color);
+    return { arr: slotArr };
+  }
+
+  @Post('clearBySlot')
+  freeLot(@Body('slot_number') slot_number: number) {
+    const freedSlot = this.parkinglotService.clearSlot(slot_number);
+    return { freed_slot_number: freedSlot };
+  }
+
+  @Post('clearByReg')
+  freeLotByReg(@Body('car_registration_no') car_registration_no: string) {
+    const freedSlot =
+      this.parkinglotService.clearSlotByReg(car_registration_no);
+    return { freed_slot_number: freedSlot };
+  }
+
+  @Get('status')
+  fetchOccupiedSlots() {
+    const occupiedSlots = this.parkinglotService.fetchOccSlots();
+    return occupiedSlots;
+  }
 }

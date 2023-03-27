@@ -52,4 +52,31 @@ export class ParkinglotService {
       .map((c) => c.car_reg_no);
     return temp;
   }
+
+  getSlotNum(color: string) {
+    const temp = this.car
+      .filter((c) => c.car_color === color)
+      .map((c) => c.allotedSlot);
+    return temp;
+  }
+
+  clearSlot(slot_number: number) {
+    const slotToEmpty = this.slot.find((s) => s.index === slot_number);
+    slotToEmpty.vacant = true;
+    this.car = this.car.filter((c) => c.allotedSlot !== slot_number);
+    return slotToEmpty.index;
+  }
+  clearSlotByReg(car_registration_no: string) {
+    const slotToEmptyIndex = this.car.find(
+      (c) => c.car_reg_no === car_registration_no,
+    ).allotedSlot;
+    const slotToEmpty = this.slot.find((s) => s.index === slotToEmptyIndex);
+    slotToEmpty.vacant = true;
+    this.car = this.car.filter((c) => c.car_reg_no !== car_registration_no);
+    return slotToEmptyIndex;
+  }
+
+  fetchOccSlots() {
+    return this.car;
+  }
 }
